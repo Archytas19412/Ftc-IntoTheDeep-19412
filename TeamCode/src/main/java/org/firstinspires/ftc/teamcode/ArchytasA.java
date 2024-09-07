@@ -11,17 +11,20 @@ import java.util.Arrays;
 public class ArchytasA extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
-
+    private DcMotor leftFrontDrive = null;
+    private DcMotor leftBackDrive = null;
+    private DcMotor rightFrontDrive = null;
+    private DcMotor rightBackDrive = null;
 
     @Override
     public void runOpMode() {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        DcMotor leftFrontDrive  = hardwareMap.get(DcMotor.class, "lfDrive");
-        DcMotor leftBackDrive  = hardwareMap.get(DcMotor.class, "lbDrive");
-        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rfDrive");
-        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "rbDrive");
+       leftFrontDrive  = hardwareMap.get(DcMotor.class, "lfDrive");
+       leftBackDrive  = hardwareMap.get(DcMotor.class, "lbDrive");
+       rightFrontDrive = hardwareMap.get(DcMotor.class, "rfDrive");
+       rightBackDrive = hardwareMap.get(DcMotor.class, "rbDrive");
 
 
 
