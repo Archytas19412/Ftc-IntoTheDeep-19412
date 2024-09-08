@@ -10,12 +10,12 @@ import java.util.Arrays;
 
 public class ArchytasA extends LinearOpMode {
 
-    // Declare OpMode members for each of the 4 motors.
+    // 4 drive motors
     private DcMotor leftFrontDrive = null;
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
-
+    //2 claw motors + 2 claw variables for input (used later)
     private DcMotor clawLift = null;
     private DcMotor clawExtend = null;
     float clawOut = 0;
@@ -25,15 +25,16 @@ public class ArchytasA extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        // Initialize the hardware variables. Note that the strings used here must correspond
-        // to the names assigned during the robot configuration step on the DS or RC devices.
+        // starts all of the hardware variables
         leftFrontDrive = hardwareMap.get(DcMotor.class, "lfDrive");
         leftBackDrive = hardwareMap.get(DcMotor.class, "lbDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rfDrive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "rbDrive");
         clawLift = hardwareMap.get(DcMotor.class, "clawlift");
         clawExtend = hardwareMap.get(DcMotor.class, "clawExtend");
-        clawExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //sets the lift and extend motor to break when 0 power is applied
+        //clawExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -64,14 +65,17 @@ public class ArchytasA extends LinearOpMode {
             double[] powerArray = {Math.abs(leftFrontPower), Math.abs(rightFrontPower), Math.abs(leftBackPower), Math.abs(rightBackPower), 1};
             double max = Arrays.stream(powerArray).max().getAsDouble();
 
-            // Send calculated power to wheels
+            // Send and calculate power to wheels
             leftFrontDrive.setPower(leftFrontPower / max);
             rightFrontDrive.setPower(rightFrontPower / max);
             leftBackDrive.setPower(leftBackPower / max);
             rightBackDrive.setPower(rightBackPower / max);
 
+            clawExtend.setPower(-gamepad2.left_stick_y);
+            clawLift.setPower(-gamepad2.right_stick_y);
+
             //start of claw code
-            gamepad2.left_stick_y = clawOut;
+           /* gamepad2.left_stick_y = clawOut;
             //while the stick input is above/below 0.05 and -0.05
             // the claw will extend/retract when it is between the encoder positions but wont move when outside the positions
             while ((clawOut > 0.05) || (clawOut < -0.05)) {
@@ -101,6 +105,8 @@ public class ArchytasA extends LinearOpMode {
                     clawLift.setPower(0);
                 }
             }
+
+            */
         }
     }
 }
