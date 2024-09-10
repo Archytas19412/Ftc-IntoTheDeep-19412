@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.Arrays;
 
@@ -18,8 +20,13 @@ public class ArchytasA extends LinearOpMode {
     //2 claw motors + 2 claw variables for input (used later)
     private DcMotor clawLift = null;
     private DcMotor clawExtend = null;
+
+    private Servo Lgrabber = null;
+    private Servo Rgrabber = null;
     float clawOut = 0;
     float clawUp = 0;
+    double servoSpeed  = 0.04 ;
+    double servoRotate = 0;
 
 
     @Override
@@ -32,15 +39,23 @@ public class ArchytasA extends LinearOpMode {
         rightBackDrive = hardwareMap.get(DcMotor.class, "rbDrive");
         clawLift = hardwareMap.get(DcMotor.class, "clawlift");
         clawExtend = hardwareMap.get(DcMotor.class, "clawExtend");
+        Lgrabber = hardwareMap.get(Servo.class, "Lgrabber");
+        Rgrabber = hardwareMap.get(Servo.class, "Rgrabber");
+        clawLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        clawExtend.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sets the lift and extend motor to break when 0 power is applied
         //clawExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Lgrabber.setPosition(0);
+        Rgrabber.setPosition(1);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            clawLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
             leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
             rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -71,42 +86,58 @@ public class ArchytasA extends LinearOpMode {
             leftBackDrive.setPower(leftBackPower / max);
             rightBackDrive.setPower(rightBackPower / max);
 
-            clawExtend.setPower(-gamepad2.left_stick_y);
-            clawLift.setPower(-gamepad2.right_stick_y);
+            clawExtend.setPower(gamepad2.left_stick_y);
+            //clawLift.setPower(-gamepad2.right_stick_y);
 
             //start of claw code
-           /* gamepad2.left_stick_y = clawOut;
+           //gamepad2.left_stick_y = clawOut;
             //while the stick input is above/below 0.05 and -0.05
             // the claw will extend/retract when it is between the encoder positions but wont move when outside the positions
-            while ((clawOut > 0.05) || (clawOut < -0.05)) {
-                if ( clawExtend.getCurrentPosition() < 1000 && clawExtend.getCurrentPosition() > 0) {
-                    clawExtend.setPower(-clawOut);
+            /*while (( gamepad2.left_stick_y > 0.05) || (gamepad2.left_stick_y < -0.05)) {
+                if ( clawExtend.getCurrentPosition() < 3000 && clawExtend.getCurrentPosition() > 0) {
+                    clawExtend.setPower(-gamepad2.left_stick_y);
                 }
-                if (clawExtend.getCurrentPosition() > 1000){
+                else if (clawExtend.getCurrentPosition() > 3000){
                     clawExtend.setPower(0);
                 }
-                if (clawExtend.getCurrentPosition() < 0){
+                else if (clawExtend.getCurrentPosition() < 0){
                     clawExtend.setPower(0);
                 }
-            }
+            }*/
 
 
-            gamepad2.right_stick_y = clawUp;
+            //gamepad2.right_stick_y = clawUp;
             //while the stick input is above/below 0.05 and -0.05
             // the claw will lift when it is between the encoder positions but wont move when outside the positions
-            while ((clawUp> 0.05) || (clawUp < -0.05)) {
-                if ( clawLift.getCurrentPosition() < 1000 && clawLift.getCurrentPosition() > 0) {
-                    clawLift.setPower(-clawOut);
+            if ((gamepad2.right_stick_y> 0.07) || (gamepad2.right_stick_y < -0.07)) {
+                if ( clawLift.getCurrentPosition() > -4800 && clawLift.getCurrentPosition() < 50) {
+                    clawLift.setPower(-gamepad2.right_stick_y);
                 }
-                else if (clawLift.getCurrentPosition() > 1000){
+                else if (clawLift.getCurrentPosition() < -4800){
                     clawLift.setPower(0);
                 }
-                else if (clawLift.getCurrentPosition() < 0){
+                else if (clawLift.getCurrentPosition() > 50){
                     clawLift.setPower(0);
                 }
+
+            }
+            if (gamepad2.left_bumper){
+                clawLift.setPower(0.3);
+
             }
 
-            */
+
+            if (gamepad2.a) {
+                Lgrabber.setPosition(0);
+                Rgrabber.setPosition(1);
+            }
+            if(gamepad2.b){
+                Lgrabber.setPosition(0.35);
+                Rgrabber.setPosition(0.6);
+            }
+
+
         }
     }
 }
+
