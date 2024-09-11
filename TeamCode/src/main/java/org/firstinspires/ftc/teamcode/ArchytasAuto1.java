@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com. qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Archy's Auto")
+@Autonomous(name = "Archy's Auto(1)")
 
-public class ArchytasAuto extends LinearOpMode {
+public class ArchytasAuto1 extends LinearOpMode {
     private DcMotor leftFrontDrive = null;
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
@@ -45,11 +44,16 @@ public class ArchytasAuto extends LinearOpMode {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
         waitForStart();
         while (opModeIsActive()) {
+            clawLift.setTargetPosition(-100);
+            clawLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            clawLift.setPower(0.4);
+            while (clawLift.isBusy()){
+            }
             clawLift.setPower(0);
 
-            Drive(-878, -878, -878, -878, 0.4);
+            Drive(878, 878, 878, 878, 0.4);
             sleep(500);
-            Drive(3746, 3746, 3746, 3746, 0.4);
+            Drive(-3746, -3746, -3746, -3746, 0.4);
             sleep(30000);
 
         }
