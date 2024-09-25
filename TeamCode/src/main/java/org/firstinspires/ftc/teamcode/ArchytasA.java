@@ -37,7 +37,7 @@ public class ArchytasA extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "lbDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rfDrive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "rbDrive");
-        clawLift = hardwareMap.get(DcMotor.class, "clawlift");
+        clawLift = hardwareMap.get(DcMotor.class, "clawLift");
         clawExtend = hardwareMap.get(DcMotor.class, "clawExtend");
         Lgrabber = hardwareMap.get(Servo.class, "Lgrabber");
         Rgrabber = hardwareMap.get(Servo.class, "Rgrabber");
@@ -45,7 +45,7 @@ public class ArchytasA extends LinearOpMode {
         clawLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         clawExtend.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sets the lift and extend motor to break when 0 power is applied
-        //clawExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        clawExtend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Lgrabber.setPosition(0);
         Rgrabber.setPosition(1);
@@ -55,7 +55,6 @@ public class ArchytasA extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            clawLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
             leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
             rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);

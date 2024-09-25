@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Archy's Auto Left Side")
+@Autonomous(name = "Archy's Auto Right Side (s)")
 
-public class ArchytasAuto1 extends LinearOpMode {
+public class ArchytasAutoRS extends LinearOpMode {
     private DcMotor leftFrontDrive = null;
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
@@ -46,49 +46,59 @@ public class ArchytasAuto1 extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-            Claw(-500,-0.3);
+            Claw(-100,-0.3);
 
-            Drive(978, 978, 978, 978, 0.4);
+
+            //drive backwards and pause
+            Drive(-978, -978, -978, -978, 0.4);
             sleep(500);
-            Drive(-3746, -3746, -3746, -3746, 0.4);
+            //strafe right
+            Drive(1110, -1110, -1110,1110, 0.3);
+            sleep(500);
+            //drive forward and pause
+            Drive(3746, 3746, 3746, 3746, 0.4);
+            sleep(500);
+            //strafe left
+            Drive(-1110,1110,1110,-1110,0.3);
             sleep(30000);
 
         }
     }
 
 
-        public void Drive ( int FrontLTarget, int FrontRTarget, int BackLTarget, int BackRTarget,
-        double Speed){
-            leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    public void Drive ( int FrontLTarget, int FrontRTarget, int BackLTarget, int BackRTarget,
+                        double Speed){
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            leftFrontDrive.setTargetPosition(FrontLTarget);
-            rightFrontDrive.setTargetPosition(FrontRTarget);
-            leftBackDrive.setTargetPosition(BackLTarget);
-            rightBackDrive.setTargetPosition(BackRTarget);
+        leftFrontDrive.setTargetPosition(FrontLTarget);
+        rightFrontDrive.setTargetPosition(FrontRTarget);
+        leftBackDrive.setTargetPosition(BackLTarget);
+        rightBackDrive.setTargetPosition(BackRTarget);
 
-            leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            leftFrontDrive.setPower(Speed);
-            rightFrontDrive.setPower(Speed);
-            leftBackDrive.setPower(Speed);
-            rightBackDrive.setPower(Speed);
+        leftFrontDrive.setPower(Speed);
+        rightFrontDrive.setPower(Speed);
+        leftBackDrive.setPower(Speed);
+        rightBackDrive.setPower(Speed);
 
-            while (opModeIsActive() && (rightBackDrive.isBusy() || leftBackDrive.isBusy() || rightFrontDrive.isBusy() || leftFrontDrive.isBusy())) {
-                idle();
-            }
-
-            rightBackDrive.setPower(0);
-            leftBackDrive.setPower(0);
-            rightFrontDrive.setPower(0);
-            leftFrontDrive.setPower(0);
+        while (opModeIsActive() && (rightBackDrive.isBusy() || leftBackDrive.isBusy() || rightFrontDrive.isBusy() || leftFrontDrive.isBusy())) {
+            idle();
         }
-        public void Claw (int Target, double speed){
+
+        rightBackDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+    }
+
+    public void Claw (int Target, double speed){
         clawLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         clawLift.setTargetPosition(Target);
@@ -97,11 +107,11 @@ public class ArchytasAuto1 extends LinearOpMode {
 
         clawLift.setPower(speed);
 
-            while (opModeIsActive() && (clawLift.isBusy())) {
-                idle();
-            }
+        while (opModeIsActive() && (clawLift.isBusy())) {
+            idle();
+        }
         clawLift.setPower(0);
 
-        }
     }
 
+}

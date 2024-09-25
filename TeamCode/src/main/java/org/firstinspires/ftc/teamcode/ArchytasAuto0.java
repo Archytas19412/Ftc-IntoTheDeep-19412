@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Archy's Auto(0)")
+@Autonomous(name = "Archy's Auto Right Side")
 
 public class ArchytasAuto0 extends LinearOpMode {
     private DcMotor leftFrontDrive = null;
@@ -23,11 +23,12 @@ public class ArchytasAuto0 extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "lbDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rfDrive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "rbDrive");
-        clawLift = hardwareMap.get(DcMotor.class, "clawlift");
+        clawLift = hardwareMap.get(DcMotor.class, "clawLift");
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         clawLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -44,9 +45,10 @@ public class ArchytasAuto0 extends LinearOpMode {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
         waitForStart();
         while (opModeIsActive()) {
-            clawLift.setPower(0);
 
-            Drive(-878, -878, -878, -878, 0.4);
+            Claw(-500,-0.3);
+
+            Drive(-978, -978, -978, -978, 0.4);
             sleep(500);
             Drive(3746, 3746, 3746, 3746, 0.4);
             sleep(30000);
@@ -86,5 +88,21 @@ public class ArchytasAuto0 extends LinearOpMode {
             rightFrontDrive.setPower(0);
             leftFrontDrive.setPower(0);
         }
+
+    public void Claw (int Target, double speed){
+        clawLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        clawLift.setTargetPosition(Target);
+
+        clawLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        clawLift.setPower(speed);
+
+        while (opModeIsActive() && (clawLift.isBusy())) {
+            idle();
+        }
+        clawLift.setPower(0);
+
     }
 
+    }
