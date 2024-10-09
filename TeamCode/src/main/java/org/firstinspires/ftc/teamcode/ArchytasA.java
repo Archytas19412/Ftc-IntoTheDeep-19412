@@ -109,10 +109,10 @@ public class ArchytasA extends LinearOpMode {
             //while the stick input is above/below 0.05 and -0.05
             // the claw will lift when it is between the encoder positions but wont move when outside the positions
             if ((gamepad2.right_stick_y> 0.07) || (gamepad2.right_stick_y < -0.07)) {
-                if ( clawLift.getCurrentPosition() > -4800 && clawLift.getCurrentPosition() < 50) {
+                if ( clawLift.getCurrentPosition() >= -4700 && clawLift.getCurrentPosition() <= 150) {
                     clawLift.setPower(-gamepad2.right_stick_y);
                 }
-                else if (clawLift.getCurrentPosition() < -4800){
+                else if (clawLift.getCurrentPosition() < -4700){
                     clawLift.setPower(0);
                 }
                 else if (clawLift.getCurrentPosition() > 50){

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Archy's Auto Right Side (s)")
+@Autonomous(name = "Archy's Auto Left Side (s)")
 
 public class ArchytasAutoLS extends LinearOpMode {
     private DcMotor leftFrontDrive = null;
@@ -52,15 +52,15 @@ public class ArchytasAutoLS extends LinearOpMode {
             //drive backwards and pause
             Drive(-978, -978, -978, -978, 0.4);
             sleep(500);
-            //strafe left
-            Drive(-1110, 1110, 1110,-1110, 0.3);
+            //strafe right
+            Drive(1110, -1110, -1110,1110, 0.3);
             sleep(500);
             //drive forward and pause
             Drive(3746, 3746, 3746, 3746, 0.4);
             sleep(500);
-            //strafe Right
-            Drive(1110,-1110,-1110,1110,0.3);
-            sleep(1000);
+            //strafe left
+            Drive(-1110,1110,1110,-1110,0.3);
+            sleep(30000);
 
         }
     }
@@ -115,4 +115,3 @@ public class ArchytasAutoLS extends LinearOpMode {
     }
 
 }
-
